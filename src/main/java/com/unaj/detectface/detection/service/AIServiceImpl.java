@@ -38,6 +38,10 @@ public class AIServiceImpl implements AIService {
     public void init() {
         try {
             log.info("[+] Inicializando modelos de Inteligencia Artificial (ONNX)...");
+            
+            // Cargar las librerías nativas de OpenCV
+            nu.pattern.OpenCV.loadShared();
+            
             this.env = OrtEnvironment.getEnvironment();
 
             // Cargar archivos de recursos a archivos temporales para ONNX / OpenCV
