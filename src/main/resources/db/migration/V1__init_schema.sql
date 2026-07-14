@@ -1,0 +1,56 @@
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE NOT NULL
+);
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    nombres VARCHAR(100) NOT NULL,
+    apellidos VARCHAR(100) NOT NULL,
+    email VARCHAR(180) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    role_id INTEGER REFERENCES roles(id) ON DELETE SET NULL
+);
+
+CREATE TABLE devices (
+    id SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    tipo VARCHAR(20) NOT NULL,
+    ip VARCHAR(50),
+    puerto INTEGER,
+    usuario VARCHAR(100),
+    password VARCHAR(255),
+    rtsp_url VARCHAR(255),
+    indice_webcam INTEGER,
+    estado VARCHAR(20) NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE detections (
+    id SERIAL PRIMARY KEY,
+    device_id INTEGER REFERENCES devices(id) ON DELETE CASCADE,
+    emocion VARCHAR(50),
+    uso_celular BOOLEAN,
+    confianza DOUBLE PRECISION,
+    imagen TEXT,
+    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE notifications (
+    id SERIAL PRIMARY KEY,
+    usuario_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+    titulo VARCHAR(150) NOT NULL,
+    mensaje TEXT NOT NULL,
+    leido BOOLEAN NOT NULL DEFAULT FALSE,
+    fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Insertar roles iniciales
+INSERT INTO roles (nombre) VALUES ('ADMIN');
+INSERT INTO roles (nombre) VALUES ('RRHH');
+INSERT INTO roles (nombre) VALUES ('GERENTE');
+INSERT INTO roles (nombre) VALUES ('PSICOLOGIA');
+INSERT INTO roles (nombre) VALUES ('USUARIO');
