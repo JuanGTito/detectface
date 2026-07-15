@@ -70,7 +70,7 @@ public class AuthController {
                 .id(savedUser.getId())
                 .nombres(savedUser.getNombres())
                 .email(savedUser.getEmail())
-                .role(savedUser.getRole().getNombre())
+                .role(savedUser.getRole() != null ? savedUser.getRole().getNombre() : "USUARIO")
                 .build();
 
         return ResponseEntity.ok(ApiResponse.success(authResponse, "Usuario registrado y autenticado con éxito"));
@@ -94,7 +94,7 @@ public class AuthController {
                 .id(user.getId())
                 .nombres(user.getNombres())
                 .email(user.getEmail())
-                .role(user.getRole().getNombre())
+                .role(user.getRole() != null ? user.getRole().getNombre() : "USUARIO")
                 .build();
 
         return ResponseEntity.ok(ApiResponse.success(authResponse, "Autenticación exitosa"));
